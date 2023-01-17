@@ -23,11 +23,9 @@ public class Basket {
 	}
 
 	public void consolidateItems() {
-		List<BasketItem> filteredItems = new ArrayList<>(items.size());
+		List<BasketItem> filteredItems = items.stream().distinct().collect(Collectors.toList());
 		final Map<BasketItem, Integer> elementCountMap = items.stream()
 				.collect(Collectors.toMap(Function.identity(), item -> item.getQuantity(), Integer::sum));
-
-		filteredItems = items.stream().distinct().collect(Collectors.toList());
 
 		filteredItems.forEach(item -> item.setQuantity(elementCountMap.get(item).intValue()));
 
