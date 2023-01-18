@@ -5,17 +5,17 @@ import java.util.List;
 
 public class Promotion implements PromotionsService {
 
-	private static final int FIFTY_PERCENT_DISCOUNT = 50;
-	private static final int TEN_PERCENT_DISCOUNT = 10;
+	private static final Double FIFTY_PERCENT_DISCOUNT = 50D;
+	private static final Double TEN_PERCENT_DISCOUNT = 10D;
 
 	private BasketItem basketItem = new BasketItem();
-	private Integer discount = 0;
+	private Double discount = 0D;
 
 	public BasketItem getBasketItem() {
 		return basketItem;
 	}
 
-	public Integer getDiscount() {
+	public Double getDiscount() { 
 		return discount;
 	}
 

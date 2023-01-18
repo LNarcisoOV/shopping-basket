@@ -2,48 +2,70 @@ package com.interview.shoppingbasket;
 
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class RetailPriceCheckoutStepTest {
 
-    PricingService pricingService;
-    CheckoutContext checkoutContext;
-    Basket basket;
+	PricingService pricingService;
+	CheckoutContext checkoutContext;
+	Basket basket;
+	PromotionsService promotionsService;
 
-    @BeforeEach
-    void setup() {
-        pricingService = Mockito.mock(PricingService.class);
-        checkoutContext = Mockito.mock(CheckoutContext.class);
-        basket = new Basket();
+	@BeforeEach
+	void setup() {
+		pricingService = Mockito.mock(PricingService.class);
+		checkoutContext = Mockito.mock(CheckoutContext.class);
 
-        when(checkoutContext.getBasket()).thenReturn(basket);
-    }
+		promotionsService = new Promotion();
+		basket = new Basket();
 
-    @Test
-    void setPriceZeroForEmptyBasket() {
+		when(checkoutContext.getBasket()).thenReturn(basket);
+	}
 
-        RetailPriceCheckoutStep retailPriceCheckoutStep = new RetailPriceCheckoutStep(pricingService);
+	@Test
+	void setPriceZeroForEmptyBasket() {
 
-        retailPriceCheckoutStep.execute(checkoutContext);
+		RetailPriceCheckoutStep retailPriceCheckoutStep = new RetailPriceCheckoutStep(pricingService);
 
-        Mockito.verify(checkoutContext).setRetailPriceTotal(0.0);
-    }
+		retailPriceCheckoutStep.execute(checkoutContext);
 
-    @Test
-    void setPriceOfProductToBasketItem() {
+		Mockito.verify(checkoutContext).setRetailPriceTotal(0.0);
+	}
 
-        basket.add("product1", "myproduct1", 10);
-        basket.add("product2", "myproduct2", 10);
+	@Test
+	void setPriceOfProductToBasketItem() {
 
-        when(pricingService.getPrice("product1")).thenReturn(3.99);
-        when(pricingService.getPrice("product2")).thenReturn(2.0);
-        RetailPriceCheckoutStep retailPriceCheckoutStep = new RetailPriceCheckoutStep(pricingService);
+		basket.add("product1", "myproduct1", 10);
+		basket.add("product2", "myproduct2", 10);
 
-        retailPriceCheckoutStep.execute(checkoutContext);
-        Mockito.verify(checkoutContext).setRetailPriceTotal(3.99*10+2*10);
+		when(pricingService.getPrice("product1")).thenReturn(3.99);
+		when(pricingService.getPrice("product2")).thenReturn(2.0);
+		RetailPriceCheckoutStep retailPriceCheckoutStep = new RetailPriceCheckoutStep(pricingService);
 
-    }
+		retailPriceCheckoutStep.execute(checkoutContext);
+		Mockito.verify(checkoutContext).setRetailPriceTotal(3.99 * 10 + 2 * 10);
 
+	}
+
+	@Test
+	void setPromotionOfProductToBasketItem() {
+		basket.add("product1", "myproduct1", 10);
+		basket.add("product2", "myproduct2", 10);
+		basket.add("product2", "myproduct2", 10);
+
+		List<Promotion> promotions = promotionsService.getPromotions(basket);
+		basket.setPromotions(promotions);
+
+		when(pricingService.getPrice("product1")).thenReturn(3.99);
+		when(pricingService.getPrice("product2")).thenReturn(2.0);
+
+		RetailPriceCheckoutStep retailPriceCheckoutStep = new RetailPriceCheckoutStep(pricingService);
+
+		retailPriceCheckoutStep.execute(checkoutContext);
+		Mockito.verify(checkoutContext).setRetailPriceTotal(55.91);
+	}
 }
