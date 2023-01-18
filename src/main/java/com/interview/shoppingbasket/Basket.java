@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public class Basket {
 	private List<BasketItem> items = new ArrayList<>();
 	private List<BasketItem> consolidatedItems = new ArrayList<>();
+	private List<Promotion> promotions = new ArrayList<>();
 
 	public void add(String productCode, String productName, int quantity) {
 		BasketItem basketItem = new BasketItem();
@@ -25,6 +26,14 @@ public class Basket {
 	
 	public List<BasketItem> getConsolidatedItems() {
 		return consolidatedItems;
+	}
+	
+	public List<Promotion> getPromotions() {
+		return promotions;
+	}
+
+	public void setPromotions(List<Promotion> promotions) {
+		this.promotions = promotions;
 	}
 
 	public void consolidateItems() {
