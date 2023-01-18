@@ -5,17 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 public class CheckoutPromotionTest {
 
 	CheckoutPromotion checkoutPromotion;
-
-	@Mock
-	Basket basket;
-
-	@Mock
-	CheckoutStep checkoutStep;
 
 	@BeforeEach
 	void setup() {
