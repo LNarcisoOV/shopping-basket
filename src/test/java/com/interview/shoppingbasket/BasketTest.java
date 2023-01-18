@@ -67,7 +67,7 @@ public class BasketTest {
 
 		basket.consolidateItems();
 
-		List<BasketItem> basketSize = basket.getConsolidateItems();
+		List<BasketItem> basketSize = basket.getConsolidatedItems();
 
 		assertEquals(basketSize.size(), 4);
 		assertEquals(basketSize.get(0).getProductCode(), "productCode");

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class Basket {
 	private List<BasketItem> items = new ArrayList<>();
-	private List<BasketItem> consolidateItems = new ArrayList<>();
+	private List<BasketItem> consolidatedItems = new ArrayList<>();
 
 	public void add(String productCode, String productName, int quantity) {
 		BasketItem basketItem = new BasketItem();
@@ -23,8 +23,8 @@ public class Basket {
 		return items;
 	}
 	
-	public List<BasketItem> getConsolidateItems() {
-		return consolidateItems;
+	public List<BasketItem> getConsolidatedItems() {
+		return consolidatedItems;
 	}
 
 	public void consolidateItems() {
@@ -33,7 +33,7 @@ public class Basket {
 
 		filteredItems.forEach(item -> item.setQuantity(basketItemCountMap.get(item).intValue()));
 
-		consolidateItems = filteredItems;
+		consolidatedItems = filteredItems;
 	}
 
 	private List<BasketItem> getDistinctBasketItems() {
